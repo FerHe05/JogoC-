@@ -7,7 +7,7 @@
 #include "PersonagemTPS.generated.h"
 
 UCLASS()
-class STRANGERPLACE_API APersonagemTPS : public ACharacter
+class GAME_API APersonagemTPS : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -19,7 +19,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-
+	//---------------------Mover Para Frente---------------------
 	void MoverParaFrente(float Valor);
 	void MoverDireita(float Valor);
 
@@ -27,15 +27,17 @@ protected:
 		class UCameraComponent* CameraPersonagem;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CameraBoom")
 		class USpringArmComponent* SpringArmCamera;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Pulo")
 		bool bEstaPulando;
+
 
 	void Agachar();
 	void Levantar();
 	void Pular();
 	void PararPulo();
 
-public:
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
