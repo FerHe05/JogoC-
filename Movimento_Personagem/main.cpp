@@ -12,16 +12,15 @@
 // Sets default values
 APersonagemTPS::APersonagemTPS()
 {
-
-	bEstaPulando = false;
-
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpringArmCamera = CreateDefaultSubobject<USpringArmComponent>(FName("SpringArmCamera"));
 	SpringArmCamera->TargetArmLength = 200.f;
 	SpringArmCamera->bUsePawnControlRotation = true;
 	SpringArmCamera->AddRelativeLocation(FVector(0.f, 0.f, 50.f));
+	SpringArmCamera->bEnableCameraLag = true;//ativa lag da camera
+	SpringArmCamera->CameraLagSpeed = 40.f;//velocidade do lag
 	SpringArmCamera->SetupAttachment(RootComponent);
 
 	CameraPersonagem = CreateDefaultSubobject<UCameraComponent>(FName("CameraPersonagem"));
@@ -29,6 +28,7 @@ APersonagemTPS::APersonagemTPS()
 
 	GetMovementComponent()->GetNavAgentPropertiesRef().bCanCrouch = true;
 
+	//--------Configuração do pulo-------------
 	GetCharacterMovement()->AirControl = 0.05f;
 	GetCharacterMovement()->JumpZVelocity = 425.f;
 	GetCharacterMovement()->GravityScale = 1.5f;
@@ -36,16 +36,16 @@ APersonagemTPS::APersonagemTPS()
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-
 }
 
 // Called when the game starts or when spawned
 void APersonagemTPS::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 }
 
+//---------------Movimento--------------------
 void APersonagemTPS::MoverParaFrente(float Valor)
 {
 	AddMovementInput(GetActorForwardVector() * Valor);
@@ -55,7 +55,7 @@ void APersonagemTPS::MoverDireita(float Valor)
 {
 	AddMovementInput(GetActorRightVector() * Valor);
 }
-
+//------------------Agachar--------------------
 void APersonagemTPS::Agachar()
 {
 	Crouch();
@@ -65,6 +65,8 @@ void APersonagemTPS::Levantar()
 {
 	UnCrouch();
 }
+
+//------------------Pular--------------------
 
 void APersonagemTPS::Pular()
 {
